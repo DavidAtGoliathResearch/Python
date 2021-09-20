@@ -1,8 +1,9 @@
 import math
 from typing import Callable
 
+# Wikipedia: https://en.wikipedia.org/wiki/Regula_falsi
 
-def intersection(function: Callable[[float], float], x0: float, x1: float) -> float:
+def intersection(function: Callable[[float], float], x0: float, x1: float, precision: float = 10 ** -5) -> float:
     """
     function is the f we want to find its root
     x0 and x1 are two random starting points
@@ -33,7 +34,7 @@ def intersection(function: Callable[[float], float], x0: float, x1: float) -> fl
         if x_n == x_n1 or function(x_n1) == function(x_n):
             raise ZeroDivisionError("float division by zero, could not find root")
         x_n2: float = x_n1 - (function(x_n1) / ((function(x_n1) - function(x_n)) / (x_n1 - x_n)))
-        if abs(x_n2 - x_n1) < 10 ** -5:
+        if abs(x_n2 - x_n1) < precision:
             return x_n2
         x_n = x_n1
         x_n1 = x_n2
@@ -45,3 +46,7 @@ def f(x: float) -> float:
 
 if __name__ == "__main__":
     print(intersection(f, 3, 3.5))
+
+    import doctest
+
+    doctest.testmod()
